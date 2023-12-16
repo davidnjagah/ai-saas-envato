@@ -1,20 +1,28 @@
 
-import fetch from 'isomorphic-unfetch';
-import { auth } from "@clerk/nextjs";
+import axios from "axios";
 import { NextResponse } from "next/server";
-import { cookies } from 'next/headers';
 
-export async function POST ( req: Response, res: Request) {
+
+export async function POST ( req: Request ) {
  try {
     
-    const cookieStore = cookies();
-    const sessToken = cookieStore.get('__session');
+    const body = await req.json();
+    const { values, token } = body;
+    const MJ_SERVER: any = process.env.MIDJOURNEY_SERVER;
 
-    //console.log("this is the sesssToken ", sessToken);
-    
-    //return NextResponse.json(sessToken);
+    const response = await axios.post(
+        MJ_SERVER, values,
+        { 
+            headers: { 
+                'Authorization': `Bearer ${token}`
+            },
+        }
+    );
+    console.log(response);
+    return NextResponse.json(response.data);
 
     } catch (error) {
-        
+        console.log("[HEADSHOT_ERROR]", error);
+        return new NextResponse("internal error", {status: 500 });
     }
 }

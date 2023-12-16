@@ -2,13 +2,14 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Heading } from "@/components/heading";
 import { Download, ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import fetchImages from "@/lib/fetchimages";
+import { useAuth } from "@clerk/nextjs";
 
 import { amountOptions, formSchema, resolutionOptions } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,25 +25,36 @@ import { useProModal } from "@/hooks/use-pro-modal";
 import { FileUpload } from "@/components/file-upload";
 
 const HeadshotAiPage = () => {
+    const { isLoaded, userId, sessionId, getToken } = useAuth();
     const proModal = useProModal();
     const router = useRouter();
     const [images, setImages] = useState<string[]>([]);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            imageUrl: "",
+            imageUrl: "https://utfs.io/f/cd8092d2-c421-4598-8057-f9d82c4c19d3-4k0n6x.jpg",
             amount: "1",
             resolution: "512x512"
         }
     })
 
+
     const isLoading = form.formState.isSubmitting;
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        
-        const response = await axios.post("/api/fetchimages");
+    try {
+        const token = await getToken({ template: 'ai-saas' }) // => "eyJhbGciOiJSUzI1NiIsImtpZC..."
+        //console.log("this is the ai-saas token",token);
 
-    
+        const response = await axios.post("/api/fetchimages",{
+            values: values,
+            token: token,
+        });
+        console.log("response from page.tsx", response)
+
+        } catch(e) {
+                // handle error
+        }
     }
 
     return ( 
@@ -94,7 +106,7 @@ const HeadshotAiPage = () => {
                         control={form.control}
                         name="amount"
                         render={({ field }) => (
-                            <FormItem className="col-span-12 lg:col-span-2">
+                            <FormItem className="col-span-12">
                                 <Select
                                     disabled={isLoading}
                                     onValueChange={field.onChange}
@@ -124,7 +136,7 @@ const HeadshotAiPage = () => {
                         control={form.control}
                         name="resolution"
                         render={({ field }) => (
-                            <FormItem className="col-span-12 lg:col-span-2">
+                            <FormItem className="col-span-12">
                                 <Select
                                     disabled={isLoading}
                                     onValueChange={field.onChange}
@@ -151,7 +163,7 @@ const HeadshotAiPage = () => {
                         )}
                         />
                         
-                        <Button className="col-span-12 lg:col-span-2 w-full" disabled={isLoading}>
+                        <Button className="col-span-12 w-full focus:outline-none" disabled={isLoading}>
                             Generate
                         </Button>
                         </div>
