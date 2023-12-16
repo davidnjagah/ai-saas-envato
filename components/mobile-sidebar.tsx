@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { Menu } from "lucide-react";
 
 import { Button } from "./ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "./ui/sheet";
 import Sidebar from "./sidebar";
 
 interface MobileSidebarProps {
@@ -18,6 +18,8 @@ const MobileSidebar = ({
 }: MobileSidebarProps) => {
     const [domLoaded, setDomLoaded] = useState(false);
 
+    const [open, setOpen] = useState(false);
+
     useEffect(() => {
         setDomLoaded(true);
       }, []);
@@ -26,15 +28,16 @@ const MobileSidebar = ({
         return null;
       }
 
+
     return ( 
-        <Sheet>
+        <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger>
             {domLoaded && (<Button variant="ghost" size="icon"
             className="md:hidden">
                 <Menu/>
             </Button>)}
             </SheetTrigger>
-            <SheetContent side="left" className="p-0">
+            <SheetContent side="left" className="p-0" onClick={() => (setOpen(false))}>
                 <Sidebar isPro={isPro} apiLimitCount={apiLimitCount}/>
             </SheetContent>
         </Sheet>

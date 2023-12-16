@@ -2,10 +2,17 @@
 
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { ArrowRight, Code, ImageIcon, MessageSquare, Music, VideoIcon } from "lucide-react";
+import { ArrowRight, Code, ImageIcon, MessageSquare, Music, User, VideoIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const tools = [
+  {
+    label: "HeadShot Generation",
+    icon: User,
+    color: "text-pink-700",
+    bgColor: "bg-pink-700/10",
+    href: "/headshotai"
+  },
   {
     label: "Conversation",
     icon: MessageSquare,

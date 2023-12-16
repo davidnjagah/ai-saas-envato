@@ -111,7 +111,7 @@ export const ProModal = () => {
                 <Button
                 disabled={loading} 
                 onClick={onSubscribe}
-                className="w-full"
+                className="w-full focus:outline-none"
                 size="lg"
                 variant="premium"
                 >

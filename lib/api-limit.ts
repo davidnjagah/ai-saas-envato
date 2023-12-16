@@ -4,7 +4,7 @@ import { MAX_FREE_COUNTS } from "@/constants";
 
 export const increaseApiLimit = async () => {
     const { userId } = auth();
-
+    
     if (!userId){
         return;
     }
@@ -65,3 +65,13 @@ export const getApiLimitCount = async () => {
     return userApiLimit.count;
 
 }
+
+export const getUserId = async () => {
+    const { userId } = auth();
+
+    if (!userId) {
+        return 0;
+    }
+
+    return userId;
+} 
