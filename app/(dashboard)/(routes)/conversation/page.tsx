@@ -61,7 +61,6 @@ const ConversationPage = () => {
         } finally {
             router.refresh();
         }
-        console.log(values);
     }
 
     return ( 

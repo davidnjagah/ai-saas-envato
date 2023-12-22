@@ -58,7 +58,6 @@ const ImagePage = () => {
         } finally {
             router.refresh();
         }
-        console.log(values);
     }
 
     return ( 

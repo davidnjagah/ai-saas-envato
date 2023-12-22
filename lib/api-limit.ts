@@ -52,6 +52,10 @@ export const getApiLimitCount = async () => {
         return 0;
     }
 
+    const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+    await delay(500);
+
     const userApiLimit = await prismadb.userApiLimit.findUnique({
         where: {
             userId

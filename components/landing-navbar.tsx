@@ -1,6 +1,7 @@
 "use client";
 
 import { Montserrat } from "next/font/google";
+import styles from './landing-navbar.module.css';
 import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@clerk/nextjs";
@@ -32,7 +33,7 @@ export const LandingNavbar = () => {
             </Link>
             <div className="flex items-center gap-x-2">
                 <Link href={isSignedIn ? "/dashboard" : "/sign-up"}>
-                    <Button variant="outline" className="rounded-full">
+                    <Button variant="outline" className={styles.joinButton}>
                         Get Started
                     </Button>
                 </Link>

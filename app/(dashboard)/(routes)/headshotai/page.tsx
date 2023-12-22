@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 import fetchImages from "@/lib/fetchimages";
 import { useAuth } from "@clerk/nextjs";
 
-import { amountOptions, formSchema, resolutionOptions } from "./constants";
+import { amountOptions, formSchema, resolutionOptions, templateOptions } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Select, SelectTrigger, SelectContent, SelectValue, SelectItem } from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
@@ -24,16 +24,26 @@ import Image from "next/image";
 import { useProModal } from "@/hooks/use-pro-modal";
 import { FileUpload } from "@/components/file-upload";
 
+interface Template {
+    name: string,
+    prompt: string,
+    uri: string
+};
+
 const HeadshotAiPage = () => {
     const { isLoaded, userId, sessionId, getToken } = useAuth();
     const proModal = useProModal();
     const router = useRouter();
     const [images, setImages] = useState<string[]>([]);
+    const [selectedImage, setSelectedImage] = useState<Template>({name: "", prompt: "", uri: ""});
+
+  
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            imageUrl: "https://utfs.io/f/cd8092d2-c421-4598-8057-f9d82c4c19d3-4k0n6x.jpg",
-            amount: "1",
+            imageUrl: "",
+            prompt: selectedImage.prompt,
+            amount: "1 2 3 4",
             resolution: "512x512"
         }
     })
@@ -41,19 +51,63 @@ const HeadshotAiPage = () => {
 
     const isLoading = form.formState.isSubmitting;
 
+    useEffect(() => {
+        if (selectedImage) {
+            form.setValue('prompt', selectedImage.prompt);
+        }
+        console.log('Selected Image:', selectedImage.name);
+        console.log(form.control._formValues);
+
+    }, [selectedImage, form])
+    
+
+
+    //add data that will have the info for the templates.
+    //they will include url and prompt.
+    //just need the prompt data.
+    //will later get this from the db.
+    //need to put logic for upload function before user presses generate.
+
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        console.log("this is the values", values);
     try {
-        const token = await getToken({ template: 'ai-saas' }) // => "eyJhbGciOiJSUzI1NiIsImtpZC..."
-        //console.log("this is the ai-saas token",token);
+        const token = await getToken({ template: 'ai-saas' })
 
         const response = await axios.post("/api/fetchimages",{
             values: values,
             token: token,
         });
-        console.log("response from page.tsx", response)
 
-        } catch(e) {
-                // handle error
+        console.log("This is the response from page.tsx", response);
+
+        setImages(response.data);
+
+        } catch (error: any) {
+            if (error?.response?.status === 403) {
+                proModal.onOpen();
+            } else {
+                toast.error("Something went wrong, Please try again.");
+            }
+        } finally {
+            router.refresh();
+        }
+    }
+    const handleImageSelect = (image: Template) => {
+      setSelectedImage(image);
+    };
+
+    function handleForm() {
+        const template = form.getValues('prompt');
+        const upload = form.getValues('imageUrl');
+
+        console.log(template, upload);
+
+        if (!template) {
+            toast.error("Please choose one of the professional headshot images.");
+        }
+
+        if (!upload) {
+            toast.error("Please upload your image.");
         }
     }
 
@@ -61,7 +115,7 @@ const HeadshotAiPage = () => {
         <div>
             <Heading
             title="Ai Headshot Generation"
-            description="Create a profesional headshot photo just by uploading a few of your images."
+            description="Create a profesional headshot photo just by uploading one of your images."
             Icon={ImageIcon}
             iconColor="text-pink-700"
             bgColor="bg-pink-700/10"
@@ -69,9 +123,10 @@ const HeadshotAiPage = () => {
             <div className="px-4 lg:px-8 ">
                 <div>
                     <Form {...form}>
-                        <form
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        >
+                        <form onSubmit={form.handleSubmit(onSubmit)}>
+                        <p className="text-muted-foreground text-sm text-center pb-2">
+                            Please upload one of your photos with great lighting and framing of your face.
+                        </p>
                         <div className="flex items-center justify-center text-center p-5">
                         <FormField
                         control={form.control}
@@ -85,6 +140,7 @@ const HeadshotAiPage = () => {
                                     onChange={field.onChange}
                                 />
                             </FormControl>
+                            {/*if field.value is == "" then return error or toast*/}
                             </FormItem>
                         )}
                         />
@@ -101,7 +157,34 @@ const HeadshotAiPage = () => {
                         grid-cols-12
                         gap-4                        
                         ">
-                        
+                        <FormField
+                        control={form.control}
+                        name="prompt"
+                        render={({ field }) => (
+                            <FormItem className="col-span-12">
+                                <p className="text-muted-foreground text-sm text-center pb-2">
+                                    Please choose one image below
+                                </p>
+                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5">
+                                    {templateOptions.map((image) => (
+                                    <div
+                                        key={image.name}
+                                        className={`cursor-pointer ${selectedImage.name === image.name ? 'ring-2 ring-blue-500' : ''}`}
+                                        onClick={() => handleImageSelect(image)}
+                                        onChange={field.onChange}
+                                    >
+                                        <Image
+                                        alt={image.name}
+                                        width={500}
+                                        height={500}
+                                        src={image.uri}
+                                        />
+                                    </div>
+                                    ))}
+                                </div>
+                            </FormItem>
+                        )}
+                        />
                         <FormField
                         control={form.control}
                         name="amount"
@@ -163,7 +246,7 @@ const HeadshotAiPage = () => {
                         )}
                         />
                         
-                        <Button className="col-span-12 w-full focus:outline-none" disabled={isLoading}>
+                        <Button className="col-span-12 w-full focus:outline-none" disabled={isLoading} onClick={()=>{handleForm()}}>
                             Generate
                         </Button>
                         </div>

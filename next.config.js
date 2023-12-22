@@ -5,6 +5,8 @@ const nextConfig = {
             "oaidalleapiprodscus.blob.core.windows.net",
             "uploadthing.com",
             "utfs.io",
+            "cdn.discordapp.com",
+            "media.discordapp.net",
         ]
     }
 }

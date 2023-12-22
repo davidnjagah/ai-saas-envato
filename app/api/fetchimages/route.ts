@@ -18,11 +18,11 @@ export async function POST ( req: Request ) {
             },
         }
     );
-    console.log(response);
+    console.log("This is response in the api folder", response);
     return NextResponse.json(response.data);
 
     } catch (error) {
-        console.log("[HEADSHOT_ERROR]", error);
+        console.log("[FETCHIMAGES_ERROR]", error);
         return new NextResponse("internal error", {status: 500 });
     }
 }

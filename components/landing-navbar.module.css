@@ -1,0 +1,33 @@
+.joinButton {
+  padding: 10px 30px; /* Increased horizontal padding for oval shape */
+  background-color: #3F4CD8; /* Initial color */
+  color: white;
+  border: none;
+  border-radius: 20px; /* Larger border-radius for an oval shape */
+  box-shadow: 0 4px rgba(29, 29, 29, 0.76); /* Adjust the shadow color */
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s; /* Transition for color and transform */
+}
+
+@keyframes rotateWobble {
+    0% { transform: rotate(0); }
+    25% { transform: rotate(3deg); } /* Slight rotation to the right */
+    50% { transform: rotate(-3deg); } /* Slight rotation to the left */
+    75% { transform: rotate(3deg); } /* Back to the right */
+    100% { transform: rotate(0); } /* Return to initial position */
+  }
+
+  @keyframes rotateWobble3D {
+    0% { transform: rotateY(0); }
+    25% { transform: rotateY(20deg); } /* Rotate slightly to the right in 3D */
+    50% { transform: rotateY(-20deg); } /* Rotate slightly to the left in 3D */
+    75% { transform: rotateY(20deg); } /* Back to the right in 3D */
+    100% { transform: rotateY(0); } /* Return to initial position */
+  }
+  
+  .joinButton:hover {
+      box-shadow: 0 2px; /* Replace with the shadow color */
+      background-color: #E86E9F; /* Color on hover */
+      animation: rotateWobble 0.6s ease;
+  }
+  
