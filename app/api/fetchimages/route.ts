@@ -61,9 +61,9 @@ export async function POST ( req: Request ) {
 
     console.log("This is res", res);
 
-    // axios.post(
-    //     MJ_SERVER+'/deleteid', { rid: upload.saveid }
-    // );
+    axios.post(
+        MJ_SERVER+'/deleteid', { rid: upload.saveid }
+    );
 
     if (!isPro){
         await increaseApiLimit();

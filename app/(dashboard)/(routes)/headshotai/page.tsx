@@ -72,6 +72,8 @@ const HeadshotAiPage = () => {
 
         console.log("This is the response from page.tsx", response);
 
+        form.setValue('imageUrl', "");
+
         setImage(response.data);
 
         } catch (error: any) {
