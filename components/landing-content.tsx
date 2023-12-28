@@ -4,34 +4,52 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
 const testimonials = [
     {
-        name: "Antonio",
-        avatar: "A",
-        title: "Software Engineer",
-        description: "This is the best application I've used!"
+        name: "David",
+        avatar: "D",
+        title: "Actor",
+        description: "I needed full-body shots for auditions, and this app delivered stunning results. It boosted my portfolio big time!"
     },
     {
-        name: "Antonio",
-        avatar: "A",
-        title: "Software Engineer",
-        description: "This is the best application I've used!"
+        name: "Mary",
+        avatar: "M",
+        title: "Air Hostess",
+        description: "I was able to get good professionsal headshot photos to help me apply and start my career as an air hostess"
     },
     {
-        name: "Antonio",
-        avatar: "A",
-        title: "Software Engineer",
-        description: "This is the best application I've used!"
+        name: "Sarah",
+        avatar: "S",
+        title: "Marketing Manager",
+        description: "The professional headshot feature made my LinkedIn profile stand out. It's a game-changer for personal branding."
     },
     {
-        name: "Antonio",
-        avatar: "A",
-        title: "Software Engineer",
-        description: "This is the best application I've used!"
+        name: "Kevin",
+        avatar: "K",
+        title: "Hopsitality Employee",
+        description: "I was able to generate good photos to help me with my job hunting abroad!"
     },
     {
-        name: "Antonio",
-        avatar: "A",
+        name: "Emily",
+        avatar: "E",
         title: "Software Engineer",
-        description: "This is the best application I've used!"
+        description: "Career photo generation helped me create a polished image for my tech conference presentations. Impressive!"
+    },
+    {
+        name: "James",
+        avatar: "J",
+        title: "Real Estate Agent",
+        description: "The app's headshot generator gave me an edge in a competitive market. Clients now trust me more."
+    },
+    {
+        name: "Maria",
+        avatar: "M",
+        title: "Fashion Designer",
+        description:  "This app is a lifesaver for creating professional photos for my fashion line. It's a fashionista's dream!"
+    },
+    {
+        name: "Daniel",
+        avatar: "Dn",
+        title: " Consultant",
+        description:  "The career photo option gave my consulting website a professional touch. Clients take me seriously now."
     },
 ]
 export const LandingContent = () => {

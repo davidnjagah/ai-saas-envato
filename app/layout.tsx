@@ -7,10 +7,11 @@ import { ToasterProvider } from '@/components/toaster-provider'
 import { CrispProvider } from '@/components/crisp-provider'
 
 const inter = Inter({ subsets: ['latin'] })
+const platformName = process.env.PLATFORM_NAME; 
 
 export const metadata: Metadata = {
-  title: 'Genius',
-  description: 'AI Platform',
+  title: 'Genius Ai',
+  description: 'AI Photo Generating Platform',
 }
 
 export default function RootLayout({

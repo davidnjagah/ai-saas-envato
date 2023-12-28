@@ -14,6 +14,8 @@ const font = Montserrat({
     subsets: ["latin"]
 })
 
+const platformName = process.env.PLATFORM_NAME; 
+
 export const LandingNavbar = () => {
     const { isSignedIn } = useAuth();
 
@@ -28,7 +30,7 @@ export const LandingNavbar = () => {
                     />
                 </div>
                 <h1 className={cn("text-2xl font-bold text-white", font.className)}>
-                    Genius
+                    Genius Ai
                 </h1>
             </Link>
             <div className="flex items-center gap-x-2">

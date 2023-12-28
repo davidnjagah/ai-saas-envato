@@ -8,14 +8,11 @@ import { Heading } from "@/components/heading";
 import { Download, ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import fetchImages from "@/lib/fetchimages";
 import { useAuth } from "@clerk/nextjs";
 
-import { amountOptions, formSchema, resolutionOptions, templateOptions } from "./constants";
+import { formSchema, templateOptions } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Select, SelectTrigger, SelectContent, SelectValue, SelectItem } from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Empty } from "@/components/empty";
 import { Loader } from "@/components/loader";
@@ -31,10 +28,11 @@ interface Template {
 };
 
 const HeadshotAiPage = () => {
-    const { isLoaded, userId, sessionId, getToken } = useAuth();
+    const { getToken } = useAuth();
+    let [count, setCount] = useState(0);
     const proModal = useProModal();
     const router = useRouter();
-    const [images, setImages] = useState<string[]>([]);
+    const [image, setImage] = useState<string>("");
     const [selectedImage, setSelectedImage] = useState<Template>({name: "", prompt: "", uri: ""});
 
   
@@ -42,9 +40,7 @@ const HeadshotAiPage = () => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             imageUrl: "",
-            prompt: selectedImage.prompt,
-            amount: "1 2 3 4",
-            resolution: "512x512"
+            templateUri: selectedImage.uri
         }
     })
 
@@ -53,34 +49,30 @@ const HeadshotAiPage = () => {
 
     useEffect(() => {
         if (selectedImage) {
-            form.setValue('prompt', selectedImage.prompt);
+            form.setValue('templateUri', selectedImage.uri);
         }
-        console.log('Selected Image:', selectedImage.name);
         console.log(form.control._formValues);
-
+    
     }, [selectedImage, form])
     
 
-
-    //add data that will have the info for the templates.
-    //they will include url and prompt.
-    //just need the prompt data.
-    //will later get this from the db.
-    //need to put logic for upload function before user presses generate.
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         console.log("this is the values", values);
     try {
         const token = await getToken({ template: 'ai-saas' })
 
+        console.log("This is the token:", token);
+
         const response = await axios.post("/api/fetchimages",{
-            values: values,
+            templateUri: values.templateUri,
+            imageUrl: values.imageUrl,
             token: token,
         });
 
         console.log("This is the response from page.tsx", response);
 
-        setImages(response.data);
+        setImage(response.data);
 
         } catch (error: any) {
             if (error?.response?.status === 403) {
@@ -97,13 +89,11 @@ const HeadshotAiPage = () => {
     };
 
     function handleForm() {
-        const template = form.getValues('prompt');
+        const template = form.getValues('templateUri');
         const upload = form.getValues('imageUrl');
 
-        console.log(template, upload);
-
         if (!template) {
-            toast.error("Please choose one of the professional headshot images.");
+            toast.error("Please choose one of the professional headshot image.");
         }
 
         if (!upload) {
@@ -115,7 +105,7 @@ const HeadshotAiPage = () => {
         <div>
             <Heading
             title="Ai Headshot Generation"
-            description="Create a profesional headshot photo just by uploading one of your images."
+            description="Create a profesional headshot photo just by uploading one of your image."
             Icon={ImageIcon}
             iconColor="text-pink-700"
             bgColor="bg-pink-700/10"
@@ -140,7 +130,6 @@ const HeadshotAiPage = () => {
                                     onChange={field.onChange}
                                 />
                             </FormControl>
-                            {/*if field.value is == "" then return error or toast*/}
                             </FormItem>
                         )}
                         />
@@ -159,7 +148,7 @@ const HeadshotAiPage = () => {
                         ">
                         <FormField
                         control={form.control}
-                        name="prompt"
+                        name="templateUri"
                         render={({ field }) => (
                             <FormItem className="col-span-12">
                                 <p className="text-muted-foreground text-sm text-center pb-2">
@@ -184,69 +173,8 @@ const HeadshotAiPage = () => {
                                 </div>
                             </FormItem>
                         )}
-                        />
-                        <FormField
-                        control={form.control}
-                        name="amount"
-                        render={({ field }) => (
-                            <FormItem className="col-span-12">
-                                <Select
-                                    disabled={isLoading}
-                                    onValueChange={field.onChange}
-                                    value={field.value}
-                                    defaultValue={field.value}
-                                >
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue defaultValue={field.value}/>
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        {amountOptions.map((option)=> (
-                                            <SelectItem
-                                            key={option.value}
-                                            value={option.value}
-                                            >
-                                                {option.label}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            </FormItem>
-                        )}
-                        />
-                        <FormField
-                        control={form.control}
-                        name="resolution"
-                        render={({ field }) => (
-                            <FormItem className="col-span-12">
-                                <Select
-                                    disabled={isLoading}
-                                    onValueChange={field.onChange}
-                                    value={field.value}
-                                    defaultValue={field.value}
-                                >
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue defaultValue={field.value}/>
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        {resolutionOptions.map((option)=> (
-                                            <SelectItem
-                                            key={option.value}
-                                            value={option.value}
-                                            >
-                                                {option.label}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            </FormItem>
-                        )}
-                        />
-                        
-                        <Button className="col-span-12 w-full focus:outline-none" disabled={isLoading} onClick={()=>{handleForm()}}>
+                        />                        
+                        <Button className="my-3 col-span-12 w-full focus:outline-none" disabled={isLoading} onClick={()=>{handleForm()}}>
                             Generate
                         </Button>
                         </div>
@@ -259,25 +187,24 @@ const HeadshotAiPage = () => {
                             <Loader />
                         </div>
                     )}
-                    {images.length === 0 && !isLoading &&(
-                       <Empty label="No images generated"/>
+                    {image === "" && !isLoading &&(
+                       <Empty label="No image generated"/>
                     )}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:gird-cols-2 gap-4 mt-8">
-                        {images.map((src) => (
-                        <Card 
-                            key={src}
-                            className="rounded-lg overflow-hidden"
-                        >
+                    {image !== "" && (
+                    <Card 
+                        key={image}
+                        className="rounded-lg overflow-hidden"
+                    >
                             <div className="relative aspect-square">
                                 <Image
                                     alt="Image"
                                     fill
-                                    src={src}
+                                    src={image}
                                 />
                             </div>
                             <CardFooter className="p-2">
                                 <Button 
-                                onClick={() => window.open(src)}
+                                onClick={() => window.open(image)}
                                 variant="secondary" 
                                 className="w-full"
                                 >
@@ -285,9 +212,7 @@ const HeadshotAiPage = () => {
                                     Download
                                 </Button>
                             </CardFooter>
-                        </Card>
-                        ))}
-                    </div>
+                    </Card>)}
                 </div>
             </div>
         </div>

@@ -2,10 +2,8 @@ import * as z from "zod";
 
 
 export const formSchema = z.object({
-    amount: z.string().min(1),
-    resolution: z.string().min(1),
     imageUrl: z.string().min(1),
-    prompt: z.string().min(1)
+    templateUri: z.string().min(1)
 });
 
 export const amountOptions = [
@@ -25,8 +23,10 @@ export const amountOptions = [
         value: "1 2 3 4",
         label: "4 Photos",
     }
+
 ];
 
+    
 export const resolutionOptions = [
     {
         value: "256x256",
