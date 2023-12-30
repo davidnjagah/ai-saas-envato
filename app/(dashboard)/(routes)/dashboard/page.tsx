@@ -2,51 +2,51 @@
 
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { ArrowRight, Code, ImageIcon, MessageSquare, Music, User, VideoIcon } from "lucide-react";
+import { ArrowRight, GraduationCap, PersonStanding, QrCode, Stethoscope, User, VenetianMask} from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const tools = [
   {
-    label: "HeadShot Generation",
+    label: "Professional Headshot Generation",
     icon: User,
     color: "text-pink-700",
     bgColor: "bg-pink-700/10",
     href: "/headshotai"
   },
   {
-    label: "Conversation",
-    icon: MessageSquare,
+    label: "Full Body Generation",
+    icon: PersonStanding,
     color: "text-violet-500",
     bgColor: "bg-violet-500/10",
-    href: "/conversation"
+    href: "/fullbody"
   },
   {
-    label: "Music Generation",
-    icon: Music,
-    color: "text-emerald-500",
-    bgColor: "bg-emerald-500/10",
-    href: "/music"
-  },
-  {
-    label: "Image Generation",
-    icon: ImageIcon,
+    label: "Graduation Pics Generation",
+    icon: GraduationCap,
     color: "text-pink-700",
     bgColor: "bg-pink-700/10",
-    href: "/image"
+    href: "/graduation"
   },
   {
-    label: "Video Generation",
-    icon: VideoIcon,
+    label: "Fantasy Pics",
+    icon: VenetianMask,
     color: "text-orange-700",
     bgColor: "bg-orange-700/10",
-    href: "/video"
+    href: "/fantasy"
   },
   {
-    label: "Code Generation",
-    icon: Code,
+    label: "Career Pics Generation",
+    icon: Stethoscope,
     color: "text-green-700",
     bgColor: "bg-green-700/10",
-    href: "/code"
+    href: "/career"
+  },
+  {
+    label: "QR Code Ai Genrator",
+    icon: QrCode,
+    color: "text-blue-500",
+    bgColor: "bg-blue-500/10",
+    href: "/qrcode"
   },
 ]
 

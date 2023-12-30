@@ -13,12 +13,13 @@ import {
 import { Badge } from "./ui/badge";
 import { 
     Check, 
-    Code, 
-    ImageIcon, 
-    MessageSquare, 
-    Music, 
-    VideoIcon, 
-    Zap
+    User, 
+    Zap,
+    GraduationCap, 
+    PersonStanding, 
+    QrCode, 
+    Stethoscope, 
+    VenetianMask
 } from "lucide-react";
 import { Card } from "./ui/card";
 import { cn } from "@/lib/utils";
@@ -28,35 +29,41 @@ import toast from "react-hot-toast";
 
 const tools = [
     {
-      label: "Conversation",
-      icon: MessageSquare,
-      color: "text-violet-500",
-      bgColor: "bg-violet-500/10"
+        label: "Professional Headshot Generation",
+        icon: User,
+        color: "text-pink-700",
+        bgColor: "bg-pink-700/10"
     },
     {
-      label: "Music Generation",
-      icon: Music,
-      color: "text-emerald-500",
-      bgColor: "bg-emerald-500/10"
-    },
-    {
-      label: "Image Generation",
-      icon: ImageIcon,
-      color: "text-pink-700",
-      bgColor: "bg-pink-700/10"
-    },
-    {
-      label: "Video Generation",
-      icon: VideoIcon,
-      color: "text-orange-700",
-      bgColor: "bg-orange-700/10"
-    },
-    {
-      label: "Code Generation",
-      icon: Code,
-      color: "text-green-700",
-      bgColor: "bg-green-700/10"
-    },
+        label: "Full Body Generation",
+        icon: PersonStanding,
+        color: "text-violet-500",
+        bgColor: "bg-violet-500/10"
+      },
+      {
+        label: "Graduation Pics Generation",
+        icon: GraduationCap,
+        color: "text-pink-700",
+        bgColor: "bg-pink-700/10"
+      },
+      {
+        label: "Fantasy Pics",
+        icon: VenetianMask,
+        color: "text-orange-700",
+        bgColor: "bg-orange-700/10"
+      },
+      {
+        label: "Career Pics Generation",
+        icon: Stethoscope,
+        color: "text-green-700",
+        bgColor: "bg-green-700/10"
+      },
+      {
+        label: "QR Code Ai Genrator",
+        icon: QrCode,
+        color: "text-blue-500",
+        bgColor: "bg-blue-500/10"
+      },
   ]
 
 export const ProModal = () => {
@@ -66,7 +73,7 @@ export const ProModal = () => {
     const onSubscribe = async () => {
         try {
             setLoading(true);
-            const response = await axios.get("/api/stripe");
+            const response = await axios.get("/api/paystack");
 
             window.location.href = response.data.url;
         } catch (error) {

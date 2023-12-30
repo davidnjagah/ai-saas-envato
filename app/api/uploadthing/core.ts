@@ -13,17 +13,18 @@ interface IncomingResponse {
     content: string,
 }
  
-const handleAuth = () => {
-  const { userId } = auth();
+const handleAuth = async () => {
+  const { userId, getToken } = auth();
   if (!userId) throw new Error("Unauthorized");
-  return { userId: userId };
+  const token = await getToken({ template: 'ai-saas' });
+  return { userId: userId, token: token };
 }
 
 export const ourFileRouter = {
   passportImage: f({ image: { maxFileSize: "2MB", maxFileCount: 1 } })
     .middleware(() => handleAuth())
     .onUploadComplete(async (value) => {
-
+      
     const data = {
       url: value.file.url
     }
@@ -31,6 +32,14 @@ export const ourFileRouter = {
     console.log(value);
 
     const userId = value.metadata.userId;
+    const token = value.metadata.token;
+
+    const options = {
+      headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+      }
+    };
 
     const prev = await prismadb.uploads.findUnique({ 
       where: {
@@ -40,23 +49,17 @@ export const ourFileRouter = {
 
     if(prev){
     axios.post(
-        MJ_SERVER+'/deleteid', { rid: prev.saveid }
+        MJ_SERVER+'/deleteid', { rid: prev.saveid }, options
     );
     }
 
     const response = await axios.post(
-        MJ_SERVER+'/uploadimage', data
+        MJ_SERVER+'/uploadimage', data, options
     );
 
     const res: IncomingResponse = response.data;
 
-    const userUpload = await prismadb.uploads.findUnique({ 
-      where: {
-          userId,
-      }
-    });
-
-    if(!userUpload){
+    if(!prev){
       await prismadb.uploads.create({
         data: {
             userId,
@@ -65,7 +68,7 @@ export const ourFileRouter = {
         },
     });}
 
-    if(userUpload){
+    if(prev){
       await prismadb.uploads.update({
         where: {
             userId,

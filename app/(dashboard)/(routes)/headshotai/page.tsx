@@ -51,26 +51,20 @@ const HeadshotAiPage = () => {
         if (selectedImage) {
             form.setValue('templateUri', selectedImage.uri);
         }
-        console.log(form.control._formValues);
     
     }, [selectedImage, form])
     
 
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log("this is the values", values);
     try {
-        const token = await getToken({ template: 'ai-saas' })
-
-        console.log("This is the token:", token);
+        const token = await getToken({ template: 'ai-saas' });
 
         const response = await axios.post("/api/fetchimages",{
             templateUri: values.templateUri,
             imageUrl: values.imageUrl,
             token: token,
         });
-
-        console.log("This is the response from page.tsx", response);
 
         form.setValue('imageUrl', "");
 
@@ -106,7 +100,7 @@ const HeadshotAiPage = () => {
     return ( 
         <div>
             <Heading
-            title="Ai Headshot Generation"
+            title="Professional Headshot Generation"
             description="Create a profesional headshot photo just by uploading one of your image."
             Icon={ImageIcon}
             iconColor="text-pink-700"

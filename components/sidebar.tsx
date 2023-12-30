@@ -4,10 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { Montserrat } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { Code, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, Sheet, User, VideoIcon } from "lucide-react";
+import { LayoutDashboard, Settings, User, GraduationCap, PersonStanding, QrCode, Stethoscope, VenetianMask } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { FreeCounter } from "./free-counter";
-import { Dispatch, SetStateAction } from "react";
 const montserrat = Montserrat({
     weight: "600",
     subsets: ["latin"]
@@ -21,41 +20,46 @@ const routes = [
         color: "text-sky-500",
     },
     {
-        label: "HeadShot Generation",
+        label: "Headshot Generation",
         icon: User,
         href: "/headshotai",
         color: "text-pink-700"
     },
     {
-        label: "Conversation",
-        icon: MessageSquare,
-        href: "/conversation",
+        label: "Full Body Generation",
+        icon: PersonStanding,
         color: "text-violet-500",
-    },
-    {
-        label: "Image Generation",
-        icon: ImageIcon,
-        href: "/image",
+        bgColor: "bg-violet-500/10",
+        href: "/fullbody"
+      },
+      {
+        label: "Graduation Pics Generation",
+        icon: GraduationCap,
         color: "text-pink-700",
-    },
-    {
-        label: "Video Generation",
-        icon: VideoIcon,
-        href: "/video",
+        bgColor: "bg-pink-700/10",
+        href: "/graduation"
+      },
+      {
+        label: "Fantasy Pics",
+        icon: VenetianMask,
         color: "text-orange-700",
-    },
-    {
-        label: "Music Generation",
-        icon: Music,
-        href: "/music",
-        color: "text-emerald-500",
-    },
-    {
-        label: "Code Generation",
-        icon: Code,
-        href: "/code",
+        bgColor: "bg-orange-700/10",
+        href: "/fantasy"
+      },
+      {
+        label: "Career Pics Generation",
+        icon: Stethoscope,
         color: "text-green-700",
-    },
+        bgColor: "bg-green-700/10",
+        href: "/career"
+      },
+      {
+        label: "QR Code Ai Genrator",
+        icon: QrCode,
+        color: "text-blue-500",
+        bgColor: "bg-blue-500/10",
+        href: "/qrcode"
+      },
     {
         label: "Settings",
         icon: Settings,
