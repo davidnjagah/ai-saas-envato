@@ -37,7 +37,7 @@ try {
     
     const params: PageParams = {
         "email": userEmail,
-        "amount": "1000",
+        "amount": "100000",
         "callback_url": settingsUrl
     };
 
