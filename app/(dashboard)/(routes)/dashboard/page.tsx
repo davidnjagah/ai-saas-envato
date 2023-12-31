@@ -28,7 +28,7 @@ const tools = [
     href: "/graduation"
   },
   {
-    label: "Fantasy Pics",
+    label: "Fantasy Pics Generation",
     icon: VenetianMask,
     color: "text-orange-700",
     bgColor: "bg-orange-700/10",
@@ -42,7 +42,7 @@ const tools = [
     href: "/career"
   },
   {
-    label: "QR Code Ai Genrator",
+    label: "QR Code Art Generator",
     icon: QrCode,
     color: "text-blue-500",
     bgColor: "bg-blue-500/10",
