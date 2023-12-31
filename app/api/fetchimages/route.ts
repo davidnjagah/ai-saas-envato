@@ -1,13 +1,18 @@
 import { auth } from "@clerk/nextjs";
 import axios from "axios";
 import { NextResponse } from "next/server";
-import prismadb from "@/lib/prismadb";
 
 import { increaseApiLimit, checkApiLimit } from "@/lib/api-limit";
 import { checkSubscription } from "@/lib/subscription";
 
 export const maxDuration = 200; // This function can run for a maximum of 5 seconds
 
+interface IncomingResponse {
+    id: string,
+    rid: string,
+    flags: string,
+    content: string,
+}
 
 export async function POST ( req: Request ) {
  try {
@@ -40,19 +45,18 @@ export async function POST ( req: Request ) {
         return new NextResponse("Free trail has expired.", { status: 403 });
     }
 
-    const upload = await prismadb.uploads.findUnique({ 
-        where: {
-            userId,
-            imageurl: imageUrl
-        }
-    });
+    const saveid = await axios.post(
+        MJ_SERVER+'/uploadimage', {url: imageUrl }, options
+    );
 
-    if (!upload) {
+    if (!saveid) {
         return new NextResponse("Please try to upload your image again", { status: 500 });
     }
 
+    const savedImage: IncomingResponse = saveid.data;
+
     const data = {
-        rid: upload.saveid,
+        rid: savedImage.rid,
         templateUri: templateUri
     }
 
@@ -67,7 +71,7 @@ export async function POST ( req: Request ) {
     }
 
     axios.post(
-        MJ_SERVER+'/deleteid', { rid: upload.saveid }, options
+        MJ_SERVER+'/deleteid', { rid: savedImage.rid }, options
     );
 
     if (!isPro){

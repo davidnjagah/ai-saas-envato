@@ -23,59 +23,8 @@ const handleAuth = async () => {
 export const ourFileRouter = {
   passportImage: f({ image: { maxFileSize: "2MB", maxFileCount: 1 } })
     .middleware(() => handleAuth())
-    .onUploadComplete(async (value) => {
+    .onUploadComplete(() => {
       
-    const data = {
-      url: value.file.url
-    }
-
-    const userId = value.metadata.userId;
-    const token = value.metadata.token;
-
-    const options = {
-      headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-      }
-    };
-
-    const prev = await prismadb.uploads.findUnique({ 
-      where: {
-          userId,
-      }
-    });
-
-    if(prev){
-    axios.post(
-        MJ_SERVER+'/deleteid', { rid: prev.saveid }, options
-    );
-    }
-
-    const response = await axios.post(
-        MJ_SERVER+'/uploadimage', data, options
-    );
-
-    const res: IncomingResponse = response.data;
-
-    if(!prev){
-      await prismadb.uploads.create({
-        data: {
-            userId,
-            imageurl: data.url,
-            saveid: res.rid
-        },
-    });}
-
-    if(prev){
-      await prismadb.uploads.update({
-        where: {
-            userId,
-        },
-          data: {
-              imageurl: data.url,
-              saveid: res.rid
-          },
-      });}
     })
 } satisfies FileRouter;
  
