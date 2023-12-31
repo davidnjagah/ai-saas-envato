@@ -22,6 +22,13 @@ export async function POST ( req: Request ) {
     const { templateUri, imageUrl, token } = body;
     const MJ_SERVER: any = process.env.MIDJOURNEY_SERVER;
 
+    const options = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+      };
+
     if (!userId) {
         return new NextResponse("Unauthorized", { status: 401 });
     }
@@ -50,12 +57,7 @@ export async function POST ( req: Request ) {
     }
 
     const response = await axios.post(
-        MJ_SERVER+'/fetchimages', data,
-        { 
-            headers: { 
-                'Authorization': `Bearer ${token}`
-            },
-        }
+        MJ_SERVER+'/fetchimages', data, options
     );
 
     const res = response.data;
@@ -64,8 +66,8 @@ export async function POST ( req: Request ) {
         return new NextResponse("Please try again", { status: 500 });
     }
 
-    await axios.post(
-        MJ_SERVER+'/deleteid', { rid: upload.saveid }
+    axios.post(
+        MJ_SERVER+'/deleteid', { rid: upload.saveid }, options
     );
 
     if (!isPro){
