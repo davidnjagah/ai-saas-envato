@@ -29,8 +29,6 @@ export const ourFileRouter = {
       url: value.file.url
     }
 
-    console.log(value);
-
     const userId = value.metadata.userId;
     const token = value.metadata.token;
 
