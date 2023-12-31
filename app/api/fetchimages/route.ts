@@ -6,10 +6,15 @@ import prismadb from "@/lib/prismadb";
 import { increaseApiLimit, checkApiLimit } from "@/lib/api-limit";
 import { checkSubscription } from "@/lib/subscription";
 
+export const maxDuration = 200; // This function can run for a maximum of 5 seconds
 
 
 export async function POST ( req: Request ) {
  try {
+
+    new Response('Vercel', {
+        status: 200,
+    });
 
     const { userId } = auth();
     
