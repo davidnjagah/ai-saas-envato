@@ -12,7 +12,7 @@ export const maxDuration = 200; // This function can run for a maximum of 5 seco
 export async function POST ( req: Request ) {
  try {
 
-    new Response('Vercel', {
+    new NextResponse('Vercel', {
         status: 200,
     });
 
