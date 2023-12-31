@@ -64,7 +64,7 @@ export async function POST ( req: Request ) {
         return new NextResponse("Please try again", { status: 500 });
     }
 
-    axios.post(
+    await axios.post(
         MJ_SERVER+'/deleteid', { rid: upload.saveid }
     );
 
