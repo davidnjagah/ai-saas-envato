@@ -15,11 +15,11 @@ export const LandingHero = () => {
                 <TypewriterComponent
                     options={{
                         strings: [
-                            "Professional Headshot Genration.",
-                            "Full Body Professional Photo Generation.",
-                            "Career Photo Generation.",
-                            "Qr Code Generation.",
-                            "Fantasy Photo Generation.",
+                            "Professional Headshot Photos.",
+                            "Full Body Professional Photos.",
+                            "Career Photos.",
+                            "Qr Code Art.",
+                            "Fantasy Photos.",
                         ],
                         autoStart: true,
                         loop: true
