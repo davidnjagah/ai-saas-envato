@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client"
 
 import { useEffect, useState } from "react";
@@ -11,24 +12,27 @@ import { useProModal } from "@/hooks/use-pro-modal";
 interface FreeCounterProps {
     apiLimitCount: number;
     isPro: boolean;
+    userMaxApiCount: number;
 }
 
 export const FreeCounter = ({
     apiLimitCount = 0,
-    isPro = false
+    isPro = false,
+    userMaxApiCount = 1
 }:FreeCounterProps) => {
     const proModal = useProModal();
     const [mounted, setMounted] = useState(false);
 
+    // console.log("counter:",userMaxApiCount);
+    // console.log("counter:",apiLimitCount);
+
     useEffect(() => {
+
         setMounted(true);
+
     }, []);
 
     if (!mounted) {
-        return null;
-    }
-
-    if (isPro) {
         return null;
     }
 
@@ -37,12 +41,18 @@ export const FreeCounter = ({
         <Card className="bg-white/10 border-0">
             <CardContent className="py-6">
                 <div className="text-center text-sm text-white mb-4 space-y-2">
+                    {apiLimitCount < userMaxApiCount ? 
                     <p>
-                        {apiLimitCount} / {MAX_FREE_COUNTS} Free Generations
+                        {apiLimitCount} / {userMaxApiCount} Generation Tokens
                     </p>
+                    :
+                    <p>
+                        You've reached your max tokens please upgrade.
+                    </p>
+                    }
                     <Progress
                         className="h-3"
-                        value={(apiLimitCount / MAX_FREE_COUNTS) * 100}
+                        value={(apiLimitCount / userMaxApiCount) * 100}
                     />
                 </div>
                 <Button onClick={proModal.onOpen} className="w-full" variant="premium">

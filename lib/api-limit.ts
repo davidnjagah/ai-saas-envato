@@ -1,44 +1,74 @@
-import { auth } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs";
 import prismadb from "./prismadb";
-import { MAX_FREE_COUNTS } from "@/constants";
 
 export const increaseApiLimit = async () => {
     const { userId } = auth();
+    const user = await currentUser();
     
-    if (!userId){
+    if (!userId || !user){
         return;
     }
+
+    const userEmail = user.emailAddresses[0].emailAddress;
+
     const userApiLimit = await prismadb.userApiLimit.findUnique({
         where: {
-            userId
+            userEmail
         }
     });
     if (userApiLimit) {
         await prismadb.userApiLimit.update({
-            where: { userId },
+            where: { userEmail },
             data: { count: userApiLimit.count + 1 },
         });
     } else {
         await prismadb.userApiLimit.create({
-            data: { userId: userId, count: 1}
+            data: { userEmail: userEmail, count: 1}
         });
     }
 };
 
 export const checkApiLimit = async () => {
     const { userId } = auth();
+    const user = await currentUser();
 
-    if (!userId) {
+    if (!userId || !user) {
         return false;
     }
+    const userEmail = user.emailAddresses[0].emailAddress;
+
+    // const periodEnd = await prismadb.paystackSubscription.findUnique({
+    //     where: {
+    //         userEmail
+    //     }
+    // })
+
+    // if (periodEnd) {
+    //     const currentDate = new Date();
+    //     const endDate = new Date(periodEnd.paystackCurrentPeriodEnd);
+
+    //     if (currentDate > endDate){
+    //         await prismadb.userApiLimit.update({
+    //             where: {
+    //                 userEmail
+    //             },
+    //             data: {
+    //                 count: 0,
+    //                 userMaxCount: 0
+    //             }
+    //         })
+    //     }
+    // }
 
     const userApiLimit = await prismadb.userApiLimit.findUnique({
         where: {
-            userId
+            userEmail
         }
     });
 
-    if (!userApiLimit || userApiLimit.count < MAX_FREE_COUNTS){
+    const userMaxApiCount = await getUserMaxApiCount();
+
+    if (!userApiLimit || userApiLimit.count < userMaxApiCount){
         return true;
     } else {
         return false;
@@ -47,10 +77,13 @@ export const checkApiLimit = async () => {
 
 export const getApiLimitCount = async () => {
     const { userId } = auth();
+    const user = await currentUser();
 
-    if (!userId) {
+    if (!userId || !user) {
         return 0;
     }
+
+    const userEmail = user.emailAddresses[0].emailAddress;
 
     const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -58,7 +91,7 @@ export const getApiLimitCount = async () => {
 
     const userApiLimit = await prismadb.userApiLimit.findUnique({
         where: {
-            userId
+            userEmail
         }
     });
 
@@ -67,6 +100,30 @@ export const getApiLimitCount = async () => {
     }
 
     return userApiLimit.count;
+
+}
+
+export const getUserMaxApiCount = async () => {
+    const { userId } = auth();
+    const user = await currentUser();
+
+    if (!userId || !user) {
+        return 0;
+    }
+
+    const userEmail = user.emailAddresses[0].emailAddress;
+
+    const userApiLimit = await prismadb.userApiLimit.findUnique({
+        where: {
+            userEmail
+        }
+    });
+
+    if (!userApiLimit){
+        return 1;
+    }
+
+    return userApiLimit.userMaxCount;
 
 }
 

@@ -23,6 +23,8 @@ try {
         return new NextResponse("Unathorized", {status: 401 });
     }
 
+    const userEmail = user.emailAddresses[0].emailAddress
+
     const options = {
             headers: {
                 Authorization: `Bearer ${PAYSTACK_SECRET_KEY}`,
@@ -41,5 +43,5 @@ try {
 } catch (error) {
     console.log("[PAYSTACK_ERROR]", error);
     return new NextResponse("Internal error", {status: 500});
-}
+    }
 }

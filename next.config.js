@@ -7,6 +7,7 @@ const nextConfig = {
             "utfs.io",
             "cdn.discordapp.com",
             "media.discordapp.net",
+            "replicate.delivery",
         ]
     }
 }

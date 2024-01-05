@@ -13,6 +13,10 @@ export const checkSubscription = async () => {
 
     const userEmail = user.emailAddresses[0].emailAddress
 
+    const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+    await delay(500);
+
     const userSubscription = await prismadb.paystackSubscription.findUnique({
         where: {
             userEmail

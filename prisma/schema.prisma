@@ -10,8 +10,9 @@ datasource db {
 
 model UserApiLimit {
   id        String   @id @default(cuid())
-  userId    String   @unique
+  userEmail String   @unique
   count     Int      @default(0)
+  userMaxCount Int   @default(1)
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt
 }
@@ -27,17 +28,24 @@ model UserSubscription {
 
 model paystackSubscription {
   id                       String    @id @default(cuid())
-  paystackCustomerId       String?   @unique @map("customer_code")
-  paystackAmountPaid       String?   @map("amount")
-  paystackCurrentPeriodEnd DateTime? @map("next_payment_date")
+  paystackCustomerId       String    @unique @map("customer_code")
+  paystackAmountPaid       String    @map("amount")
+  paystackPlanCode         String?   @map("plan_code")
   userEmail                String    @unique
+  paystackDatePaid         DateTime
+  paystackCurrentPeriodEnd DateTime
 }
 
-model Uploads {
+model Generations {
   id        String   @id @default(cuid())
-  userId    String   @unique
-  imageurl  String   @unique
-  saveid    String
+  userId    String
+  email     String?  @map("email")
+  output    String?
+  prompt    String?
+  prompturi String?
+  upload    String
+  replicateerror String?
+  resenderror String?
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt
 }

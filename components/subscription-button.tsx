@@ -7,20 +7,24 @@ import { Zap } from "lucide-react";
 import { Button } from "./ui/button";
 
 interface SubscriptionButtonProps {
+    apiLimitCount: number;
     isPro: boolean;
+    userMaxApiCount: number;
 }
 
 export const SubscriptionButton = ({
-    isPro = false
+    apiLimitCount = 0,
+    isPro = false,
+    userMaxApiCount = 1
 }: SubscriptionButtonProps ) => {
     const [loading, setLoading] = useState(false)
 
     const onClick = async () => {
         try {
             setLoading(true);
-            const response = await axios.get("/api/paystack");
+                const response = await axios.get("/api/paystack");
 
-            window.location.href = response.data.url;
+                window.location.href = response.data.url;           
 
         } catch (error) {
             toast.error("Something went wrong");
@@ -32,11 +36,11 @@ export const SubscriptionButton = ({
     return (
         <Button 
             disabled={loading} 
-            variant={isPro ? "default" : "premium"}
+            variant={"premium"}
             onClick={onClick}
         >
-            {isPro ? "Manage Subscription" : "Upgrade"}
-            {!isPro && <Zap className="w-4 h-4 ml-2 fill-white"/>}
+            {isPro || apiLimitCount < userMaxApiCount ? "Purchase More Tokens" : "Upgrade"}
+            <Zap className="w-4 h-4 ml-2 fill-white"/>
         </Button>
     )
 }

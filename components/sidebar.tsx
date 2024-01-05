@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { LayoutDashboard, Settings, User, GraduationCap, PersonStanding, QrCode, Stethoscope, VenetianMask } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { FreeCounter } from "./free-counter";
+
 const montserrat = Montserrat({
     weight: "600",
     subsets: ["latin"]
@@ -70,17 +71,22 @@ const routes = [
 interface SidebarProps {
     apiLimitCount: number;
     isPro: boolean;
+    userMaxApiCount: number;
 }
 
 const Sidebar = ({
     apiLimitCount = 0,
-    isPro = false
+    isPro = false,
+    userMaxApiCount = 1
 }: SidebarProps) => {
-    const pathname = usePathname();
+    const pathname = usePathname(); 
+
+    // console.log("sidebar:",userMaxApiCount);
+    // console.log("sidebar:",apiLimitCount);
     return ( 
-        <div className="space-y-4 py-4 flex flex-col h-full bg-[#111827] text-white">
-            <div className="px-4 py-2 flex-1">
-                <Link href="/dashboard" className="flex items-center pl-3 mb-14">
+        <div className="space-y-1 py-4 flex flex-col h-full bg-[#111827] text-white">
+            <div className="px-4 pt-2 flex-1">
+                <Link href="/dashboard" className="flex items-center pl-3 mb-8">
                     <div className="relative w-8 h-8 mr-4">
                         <Image
                         fill
@@ -92,7 +98,7 @@ const Sidebar = ({
                         Genius Ai
                     </h1>
                 </Link>
-                <div className="space-y-1">
+                <div className="mb-2">
                     {routes.map((route)=>(
                         <Link
                         href={route.href}
@@ -112,6 +118,7 @@ const Sidebar = ({
             <FreeCounter
             isPro={isPro}
             apiLimitCount={apiLimitCount}
+            userMaxApiCount={userMaxApiCount}
             />
         </div>
      );

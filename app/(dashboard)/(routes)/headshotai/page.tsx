@@ -9,14 +9,13 @@ import { Download, ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useAuth } from "@clerk/nextjs";
+import { Input } from "@/components/ui/input";
 
 import { formSchema, templateOptions } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Empty } from "@/components/empty";
 import { Loader } from "@/components/loader";
-import { Card, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
 import { useProModal } from "@/hooks/use-pro-modal";
 import { FileUpload } from "@/components/file-upload";
@@ -29,18 +28,16 @@ interface Template {
 
 const HeadshotAiPage = () => {
     const { getToken } = useAuth();
-    let [count, setCount] = useState(0);
     const proModal = useProModal();
     const router = useRouter();
-    const [image, setImage] = useState<string>("");
     const [selectedImage, setSelectedImage] = useState<Template>({name: "", prompt: "", uri: ""});
 
-  
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            imageUrl: "",
-            templateUri: selectedImage.uri
+            imageUrl: "https://utfs.io/f/1e4735bf-ec02-4641-acca-aaa89bbf3169-mood6h.jpg",
+            template: selectedImage,
+            email: ""
         }
     })
 
@@ -49,31 +46,32 @@ const HeadshotAiPage = () => {
 
     useEffect(() => {
         if (selectedImage) {
-            form.setValue('templateUri', selectedImage.uri);
+            form.setValue('template', selectedImage);
         }
     
     }, [selectedImage, form])
     
 
-
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
         const token = await getToken({ template: 'ai-saas' });
 
-        const response = await axios.post("/api/fetchimages",{
-            templateUri: values.templateUri,
+        console.log(values);
+
+        await axios.post("/api/headshot",{
+            template: values.template,
             imageUrl: values.imageUrl,
+            email: values.email,
             token: token,
         });
 
-        form.setValue('imageUrl', "");
-
-        setImage(response.data);
+        toast.success("An email will be sent shortly to the email you have provided.", ({duration: 10000}));
 
         } catch (error: any) {
             if (error?.response?.status === 403) {
                 proModal.onOpen();
-            } else {
+            }
+            else {
                 toast.error("Something went wrong, Please try again.");
             }
         } finally {
@@ -85,15 +83,20 @@ const HeadshotAiPage = () => {
     };
 
     function handleForm() {
-        const template = form.getValues('templateUri');
+        const template = form.getValues('template');
         const upload = form.getValues('imageUrl');
+        const email = form.getValues('email');
 
-        if (!template) {
+        if (!template.uri) {
             toast.error("Please choose one of the professional headshot image.");
         }
 
         if (!upload) {
             toast.error("Please upload your image.");
+        }
+
+        if (!email) {
+            toast.error("Please input an email.");
         }
     }
 
@@ -110,7 +113,7 @@ const HeadshotAiPage = () => {
                 <div>
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)}>
-                        <p className="text-muted-foreground text-sm text-center pb-2">
+                        <p className="text-sm text-center pb-2">
                             Please upload one of your photos with great lighting and framing of your face.
                         </p>
                         <div className="flex items-center justify-center text-center p-5">
@@ -144,10 +147,10 @@ const HeadshotAiPage = () => {
                         ">
                         <FormField
                         control={form.control}
-                        name="templateUri"
+                        name="template"
                         render={({ field }) => (
                             <FormItem className="col-span-12">
-                                <p className="text-muted-foreground text-sm text-center pb-2">
+                                <p className="text-sm text-center pb-2">
                                     Please choose one image below
                                 </p>
                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5">
@@ -169,8 +172,35 @@ const HeadshotAiPage = () => {
                                 </div>
                             </FormItem>
                         )}
+                        />
+                        
+                        <FormField
+                        name="email"
+                        render={({ field }) => (
+                            <FormItem className="
+                            col-span-12
+                            ">
+                            <p className="text-sm text-center pb-2">
+                                Add an email below that will recieve the Headshot image once the generation is complete.
+                            </p>
+                                <FormControl className="m-0 p-0">
+                                    <Input 
+                                    className="
+                                    border-2
+                                    outline-none
+                                    p-2
+                                    focus-visible:ring-0
+                                    focus-visible:ring-transparent
+                                    "
+                                    disabled={isLoading}
+                                    placeholder="john@example.com"
+                                    {...field}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
                         />                        
-                        <Button className="my-3 col-span-12 w-full focus:outline-none" disabled={isLoading} onClick={()=>{handleForm()}}>
+                        <Button className="col-span-12 w-full focus:outline-none" disabled={isLoading} onClick={()=>{handleForm()}}>
                             Generate
                         </Button>
                         </div>
@@ -183,32 +213,8 @@ const HeadshotAiPage = () => {
                             <Loader />
                         </div>
                     )}
-                    {image === "" && !isLoading &&(
-                       <Empty label="No image generated"/>
-                    )}
-                    {image !== "" && (
-                    <Card 
-                        key={image}
-                        className="rounded-lg overflow-hidden"
-                    >
-                            <div className="relative aspect-square">
-                                <Image
-                                    alt="Image"
-                                    fill
-                                    src={image}
-                                />
-                            </div>
-                            <CardFooter className="p-2">
-                                <Button 
-                                onClick={() => window.open(image)}
-                                variant="secondary" 
-                                className="w-full"
-                                >
-                                    <Download className="h-4 w-4 mr-2"/>
-                                    Download
-                                </Button>
-                            </CardFooter>
-                    </Card>)}
+                </div>
+                <div className="space-y-4 my-36">
                 </div>
             </div>
         </div>

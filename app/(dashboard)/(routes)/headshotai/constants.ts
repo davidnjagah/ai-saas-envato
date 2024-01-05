@@ -3,7 +3,12 @@ import * as z from "zod";
 
 export const formSchema = z.object({
     imageUrl: z.string().min(1),
-    templateUri: z.string().min(1)
+    email: z.string().min(1),
+    template: z.object({
+        name: z.string().min(1),
+        prompt: z.string().min(1),
+        uri: z.string().min(1)
+    })
 });
 
 export const amountOptions = [
@@ -50,7 +55,7 @@ export const templateOptions = [
     },
     {
         name: "African female black business suit",
-        prompt: "an east african kenyan female who is very beautiful and her hair is black and braided, wearing black business suit with black shirt and black tie.",
+        prompt: "an east african kenyan female who is very beautiful, wearing black business suit with black shirt and black tie.",
         uri: "https://cdn.discordapp.com/attachments/1183359810947784748/1187281287044673618/dwashie_an_east_african_kenyan_female_who_is_very_beautiful_and_2a23aa05-a124-4d2f-8a6e-85dbef55b364.png"
     },
     {
@@ -65,7 +70,7 @@ export const templateOptions = [
     },
     {
         name: "Asian man in a business suit",
-        prompt: "an asain man who is a little bit buff with well gelled hair that is neatily shaven into a fade haircut and he has on a brown business suit with biege shirt and black tie.",
+        prompt: "an asain man who is a little bit buff with well gelled hair and he has on a brown business suit with biege shirt and black tie.",
         uri: "https://cdn.discordapp.com/attachments/1183359810947784748/1187283123545845820/dwashie_an_asain_man_who_is_a_little_bit_buff_with_well_gelled__f9489b92-7687-443e-8053-c35df0baa1c5.png"
     },
     {
@@ -80,7 +85,7 @@ export const templateOptions = [
     },
     {
         name: "Indian woman business suit",
-        prompt: "an Indian woman who is very beautiful with brunette asain hair and she is wearing a fomral womens pants suit with a white shirt and a black blazer.",
+        prompt: "an Indian woman who is very beautiful with brunette asain hair and she is wearing a formal womens pants suit with a white shirt and a black blazer.",
         uri: "https://cdn.discordapp.com/attachments/1183359810947784748/1187284438011346974/dwashie_an_Indian_woman_who_is_very_beautiful_with_brunette_asa_ef19a418-f4a2-4f5d-ab65-95a6bc829621.png"
     }
     ];

@@ -10,12 +10,15 @@ import Sidebar from "./sidebar";
 interface MobileSidebarProps {
     apiLimitCount: number;
     isPro: boolean;
+    userMaxApiCount: number;
 }
 
 const MobileSidebar = ({
     apiLimitCount = 0,
-    isPro = false
+    isPro = false,
+    userMaxApiCount = 1
 }: MobileSidebarProps) => {
+
     const [domLoaded, setDomLoaded] = useState(false);
 
     const [open, setOpen] = useState(false);
@@ -38,7 +41,7 @@ const MobileSidebar = ({
             </Button>)}
             </SheetTrigger>
             <SheetContent side="left" className="p-0" onClick={() => (setOpen(false))}>
-                <Sidebar isPro={isPro} apiLimitCount={apiLimitCount}/>
+                <Sidebar isPro={isPro} apiLimitCount={apiLimitCount} userMaxApiCount={userMaxApiCount}/>
             </SheetContent>
         </Sheet>
      );

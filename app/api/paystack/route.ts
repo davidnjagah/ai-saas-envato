@@ -2,6 +2,7 @@ import { auth, currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import axios from "axios";
 import { absoluteUrl } from "@/lib/utils";
+import prismadb from "@/lib/prismadb";
 
 const settingsUrl = absoluteUrl("/settings");
 
@@ -12,9 +13,11 @@ interface PageParams {
   }
 
 interface Subscription {
-    email: string;
-    amount: string;
-    plan: string,
+    email?: string;
+    amount?: string;
+    customer?: string;
+    plan: string;
+    callback_url: string;
 }
 
 interface SessionResponse {
@@ -28,13 +31,14 @@ try {
     const { userId } = auth();
     const user = await currentUser();
     const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY;
+    const PAYSTACK_PLAN = process.env.PAYSTACK_PLAN!;
 
     if (!userId || !user) {
         return new NextResponse("Unathorized", {status: 401 });
     }
 
     const userEmail = user.emailAddresses[0].emailAddress
-    
+
     const params: PageParams = {
         "email": userEmail,
         "amount": "100000",
@@ -42,9 +46,10 @@ try {
     };
 
     const subscribe: Subscription = {
-        "email": userEmail,
-        "amount": "100000",
-        "plan": "PLN_h2zahzoexjt4dq4",
+            "email": userEmail,
+            "amount": "100000",
+            "plan": PAYSTACK_PLAN,
+            "callback_url": settingsUrl
     };
 
     const options = {
@@ -53,8 +58,8 @@ try {
                 'Content-Type': 'application/json'
             }
     };
-    
-    const paystackSession = await axios.post('https://api.paystack.co/transaction/initialize',params, options);
+
+    const paystackSession = await axios.post('https://api.paystack.co/transaction/initialize', params , options);
 
     const res: SessionResponse = paystackSession.data.data;
 
@@ -62,8 +67,9 @@ try {
 
     return new NextResponse(JSON.stringify({ url: res.authorization_url }));
 
+
 } catch (error) {
     console.log("[PAYSTACK_ERROR]", error);
     return new NextResponse("Internal error", {status: 500});
-}
+    }
 }
