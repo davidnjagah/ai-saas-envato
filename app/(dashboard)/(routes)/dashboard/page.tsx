@@ -14,7 +14,7 @@ const tools = [
     href: "/headshotai"
   },
   {
-    label: "Full Body Generation",
+    label: "Full Body Pic Generation",
     icon: PersonStanding,
     color: "text-violet-500",
     bgColor: "bg-violet-500/10",

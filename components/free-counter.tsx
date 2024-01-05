@@ -23,9 +23,6 @@ export const FreeCounter = ({
     const proModal = useProModal();
     const [mounted, setMounted] = useState(false);
 
-    // console.log("counter:",userMaxApiCount);
-    // console.log("counter:",apiLimitCount);
-
     useEffect(() => {
 
         setMounted(true);

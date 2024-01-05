@@ -35,7 +35,7 @@ const tools = [
         bgColor: "bg-pink-700/10"
     },
     {
-        label: "Full Body Generation",
+        label: "Full Body Pics Generation",
         icon: PersonStanding,
         color: "text-violet-500",
         bgColor: "bg-violet-500/10"
@@ -89,7 +89,7 @@ export const ProModal = () => {
             <DialogHeader>
                 <DialogTitle className="flex justify-center items-center flex-col gap-y-4 pb-2">
                     <div className="flex items-center gap-x-2 font-bold py-1">
-                        Upgrade to Genius Ai
+                        Upgrade on Genius Ai
                         <Badge className="uppercase text-sm py-1" variant="premium">
                             10 Tokens
                         </Badge>

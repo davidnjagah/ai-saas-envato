@@ -27,18 +27,11 @@ const routes = [
         color: "text-pink-700"
     },
     {
-        label: "Full Body Generation",
+        label: "Full Body Pics Generation",
         icon: PersonStanding,
         color: "text-violet-500",
         bgColor: "bg-violet-500/10",
         href: "/fullbody"
-      },
-      {
-        label: "Graduation Pics Generation",
-        icon: GraduationCap,
-        color: "text-pink-700",
-        bgColor: "bg-pink-700/10",
-        href: "/graduation"
       },
       {
         label: "Fantasy Pics Generation",
@@ -81,8 +74,6 @@ const Sidebar = ({
 }: SidebarProps) => {
     const pathname = usePathname(); 
 
-    // console.log("sidebar:",userMaxApiCount);
-    // console.log("sidebar:",apiLimitCount);
     return ( 
         <div className="space-y-1 py-4 flex flex-col h-full bg-[#111827] text-white">
             <div className="px-4 pt-2 flex-1">
@@ -98,7 +89,7 @@ const Sidebar = ({
                         Genius Ai
                     </h1>
                 </Link>
-                <div className="mb-2">
+                <div className="space-y-1 mb-2">
                     {routes.map((route)=>(
                         <Link
                         href={route.href}
