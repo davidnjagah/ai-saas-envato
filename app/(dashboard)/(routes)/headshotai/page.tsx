@@ -35,7 +35,7 @@ const HeadshotAiPage = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            imageUrl: "https://utfs.io/f/1e4735bf-ec02-4641-acca-aaa89bbf3169-mood6h.jpg",
+            imageUrl: "",
             template: selectedImage,
             email: ""
         }
