@@ -16,10 +16,13 @@ import { Empty } from "@/components/empty";
 import { Loader } from "@/components/loader";
 import { cn } from "@/lib/utils";
 import { useProModal } from "@/hooks/use-pro-modal";
-import { OtherPageProps } from "@/lib/interfaces";
+
+interface CareerPageProps {
+    isPro: boolean;
+}
 
 
-const CareerPage = ({ isPro }: OtherPageProps) => {
+const CareerPage = ({ isPro }: CareerPageProps) => {
     const proModal = useProModal();
     const router = useRouter();
     const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);

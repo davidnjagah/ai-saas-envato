@@ -16,10 +16,13 @@ import { Empty } from "@/components/empty";
 import { Loader } from "@/components/loader";
 import { cn } from "@/lib/utils";
 import { useProModal } from "@/hooks/use-pro-modal";
-import { OtherPageProps } from "@/lib/interfaces";
+
+interface FantasyPageProps {
+    isPro: boolean;
+}
 
 
-const FantasyPage = ({ isPro }: OtherPageProps) => {
+const FantasyPage = ({ isPro }: FantasyPageProps) => {
     const proModal = useProModal();
     const router = useRouter();
     const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);

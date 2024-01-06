@@ -21,10 +21,13 @@ import { Empty } from "@/components/empty";
 import { Loader } from "@/components/loader";
 import { cn } from "@/lib/utils";
 import { useProModal } from "@/hooks/use-pro-modal";
-import { OtherPageProps } from "@/lib/interfaces";
+
+interface FullBodyPageProps {
+    isPro: boolean;
+}
 
 
-const FullBodyPage = ({ isPro }: OtherPageProps) => {
+const FullBodyPage = ({ isPro }: FullBodyPageProps) => {
     const proModal = useProModal();
     const router = useRouter();
     const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);

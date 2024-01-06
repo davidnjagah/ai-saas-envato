@@ -16,10 +16,13 @@ import { Empty } from "@/components/empty";
 import { Loader } from "@/components/loader";
 import { cn } from "@/lib/utils";
 import { useProModal } from "@/hooks/use-pro-modal";
-import { OtherPageProps } from "@/lib/interfaces";
+
+interface QrPageProps {
+    isPro: boolean;
+}
 
 
-const QrCodePage = ({ isPro }: OtherPageProps) => {
+const QrCodePage = ({ isPro }: QrPageProps) => {
     const proModal = useProModal();
     const router = useRouter();
     const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);

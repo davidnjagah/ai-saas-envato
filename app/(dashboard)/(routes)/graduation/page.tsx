@@ -23,10 +23,12 @@ import { Empty } from "@/components/empty";
 import { Loader } from "@/components/loader";
 import { cn } from "@/lib/utils";
 import { useProModal } from "@/hooks/use-pro-modal";
-import { OtherPageProps } from "@/lib/interfaces";
 
+interface GraduationPageProps {
+    isPro: boolean;
+}
 
-const GraduationPage = ({ isPro = false }: OtherPageProps) => {
+const GraduationPage = ({ isPro = false }: GraduationPageProps) => {
     const proModal = useProModal();
     const router = useRouter();
     const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
