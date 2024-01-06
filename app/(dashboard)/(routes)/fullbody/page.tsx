@@ -21,9 +21,10 @@ import { Empty } from "@/components/empty";
 import { Loader } from "@/components/loader";
 import { cn } from "@/lib/utils";
 import { useProModal } from "@/hooks/use-pro-modal";
+import { PageProps } from "@/lib/interfaces";
 
 
-const FullbodyPage = () => {
+const FullBodyPage = ({ isPro }: PageProps) => {
     const proModal = useProModal();
     const router = useRouter();
     const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
@@ -58,7 +59,7 @@ const FullbodyPage = () => {
                         </div>
                     )}
                     {messages.length === 0 && !isLoading &&(
-                       <Empty label="Coming soon"/>
+                       <Empty label="Coming soon" isPro= {isPro}/>
                     )}
                 </div>
             </div>
@@ -66,4 +67,4 @@ const FullbodyPage = () => {
      );
 }
  
-export default FullbodyPage;
+export default FullBodyPage;

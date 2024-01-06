@@ -10,6 +10,8 @@ import { GraduationCap } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { UserAvatar } from "@/components/user-avatar";
 import { BotAvatar } from "@/components/bot-avatar";
+import { getApiLimitCount, getUserMaxApiCount } from "@/lib/api-limit";
+import { checkSubscription } from "@/lib/subscription";
 
 import { formSchema } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,9 +23,10 @@ import { Empty } from "@/components/empty";
 import { Loader } from "@/components/loader";
 import { cn } from "@/lib/utils";
 import { useProModal } from "@/hooks/use-pro-modal";
+import { PageProps } from "@/lib/interfaces";
 
 
-const GraduationPage = () => {
+const GraduationPage = ({ isPro = false }: PageProps) => {
     const proModal = useProModal();
     const router = useRouter();
     const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
@@ -58,7 +61,7 @@ const GraduationPage = () => {
                         </div>
                     )}
                     {messages.length === 0 && !isLoading &&(
-                       <Empty label="Coming soon"/>
+                       <Empty label="Coming soon" isPro= {isPro}/>
                     )}
                 </div>
             </div>

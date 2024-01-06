@@ -1,6 +1,5 @@
 import { auth, currentUser } from "@clerk/nextjs";
 import prismadb from "@/lib/prismadb";
-import * as https from 'https';
 import { NextResponse } from "next/server";
 import axios from "axios";
 

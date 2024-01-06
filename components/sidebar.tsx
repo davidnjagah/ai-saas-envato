@@ -34,6 +34,13 @@ const routes = [
         href: "/fullbody"
       },
       {
+        label: "Graduation Pics Generation",
+        icon: GraduationCap,
+        color: "text-pink-700",
+        bgColor: "bg-pink-700/10",
+        href: "/graduation"
+      },
+      {
         label: "Fantasy Pics Generation",
         icon: VenetianMask,
         color: "text-orange-700",
