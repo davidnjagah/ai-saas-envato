@@ -1,3 +1,3 @@
-export interface PageProps {
+export interface OtherPageProps {
     isPro: boolean;
 }
