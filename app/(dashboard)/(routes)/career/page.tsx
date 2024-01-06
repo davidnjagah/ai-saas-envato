@@ -17,12 +17,13 @@ import { Loader } from "@/components/loader";
 import { cn } from "@/lib/utils";
 import { useProModal } from "@/hooks/use-pro-modal";
 
-interface CareerPageProps {
-    isPro: boolean;
-}
 
-
-const CareerPage = ({ isPro }: CareerPageProps) => {
+const CareerPage = ({ 
+        params, searchParams
+    } : {
+        params: { slug: string }
+        searchParams: { [key: string]: string | string[] | undefined }
+      }) => {
     const proModal = useProModal();
     const router = useRouter();
     const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
@@ -32,7 +33,7 @@ const CareerPage = ({ isPro }: CareerPageProps) => {
         defaultValues: {
             prompt: ""
         }
-    })
+    });
 
     const isLoading = form.formState.isSubmitting;
 
@@ -57,7 +58,7 @@ const CareerPage = ({ isPro }: CareerPageProps) => {
                         </div>
                     )}
                     {messages.length === 0 && !isLoading &&(
-                       <Empty label="Coming soon" isPro = {isPro}/>
+                       <Empty label="Coming soon" v = {searchParams.v}/>
                     )}
                 </div>
             </div>

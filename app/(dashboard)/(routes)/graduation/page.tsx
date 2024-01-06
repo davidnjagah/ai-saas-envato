@@ -24,11 +24,13 @@ import { Loader } from "@/components/loader";
 import { cn } from "@/lib/utils";
 import { useProModal } from "@/hooks/use-pro-modal";
 
-interface GraduationPageProps {
-    isPro: boolean;
-}
 
-const GraduationPage = ({ isPro = false }: GraduationPageProps) => {
+const GraduationPage = ({ 
+    params, searchParams
+} : {
+    params: { slug: string }
+    searchParams: { [key: string]: string | string[] | undefined }
+  }) => {
     const proModal = useProModal();
     const router = useRouter();
     const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
@@ -63,7 +65,7 @@ const GraduationPage = ({ isPro = false }: GraduationPageProps) => {
                         </div>
                     )}
                     {messages.length === 0 && !isLoading &&(
-                       <Empty label="Coming soon" isPro= {isPro}/>
+                       <Empty label="Coming soon" v = {searchParams.v}/>
                     )}
                 </div>
             </div>

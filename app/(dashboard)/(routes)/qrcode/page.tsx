@@ -17,12 +17,13 @@ import { Loader } from "@/components/loader";
 import { cn } from "@/lib/utils";
 import { useProModal } from "@/hooks/use-pro-modal";
 
-interface QrPageProps {
-    isPro: boolean;
-}
 
-
-const QrCodePage = ({ isPro }: QrPageProps) => {
+const QrCodePage = ({ 
+    params, searchParams
+} : {
+    params: { slug: string }
+    searchParams: { [key: string]: string | string[] | undefined }
+  }) => {
     const proModal = useProModal();
     const router = useRouter();
     const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
@@ -57,7 +58,7 @@ const QrCodePage = ({ isPro }: QrPageProps) => {
                         </div>
                     )}
                     {messages.length === 0 && !isLoading &&(
-                       <Empty label="Coming soon" isPro= {isPro}/>
+                       <Empty label="Coming soon" v = {searchParams.v}/>
                     )}
                 </div>
             </div>
