@@ -45,7 +45,6 @@ const HeadshotAiPage = () => {
         if (selectedImage) {
             form.setValue('template', selectedImage);
         }
-        console.log(selectedImage);
     }, [selectedImage, form])
 
     const upload = form.getValues('imageUrl');
@@ -55,8 +54,6 @@ const HeadshotAiPage = () => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
         const token = await getToken({ template: 'ai-saas' });
-
-        console.log(values);
 
         await axios.post("/api/headshot",{
             template: values.template,
