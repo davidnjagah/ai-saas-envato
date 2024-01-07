@@ -64,7 +64,7 @@ const HeadshotAiPage = () => {
             token: token,
         });
 
-        toast.success("An email will be sent shortly to the email you have provided.", ({duration: 10000}));
+        toast.success("An email will be sent to the email you have provided and will arrive in 5 to 15 mins time. Thank you for using Genius Ai.", ({duration: 15000}));
 
         } catch (error: any) {
             if (error?.response?.status === 403) {

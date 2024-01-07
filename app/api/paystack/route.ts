@@ -2,7 +2,6 @@ import { auth, currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import axios from "axios";
 import { absoluteUrl } from "@/lib/utils";
-import prismadb from "@/lib/prismadb";
 
 const settingsUrl = absoluteUrl("/settings");
 
@@ -41,7 +40,7 @@ try {
 
     const params: PageParams = {
         "email": userEmail,
-        "amount": "100000",
+        "amount": "50000",
         "callback_url": settingsUrl
     };
 
