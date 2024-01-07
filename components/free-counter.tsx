@@ -43,7 +43,7 @@ export const FreeCounter = ({
                     </p>
                     :
                     <p>
-                        You have reached your max tokens, please upgrade.
+                        You've reached your max tokens please upgrade.
                     </p>
                     }
                     <Progress
