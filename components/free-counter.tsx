@@ -3,7 +3,6 @@
 
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "./ui/card";
-import { MAX_FREE_COUNTS } from "@/constants";
 import { Progress } from "./ui/progress";
 import { Button } from "./ui/button";
 import { Zap } from "lucide-react";
@@ -44,7 +43,7 @@ export const FreeCounter = ({
                     </p>
                     :
                     <p>
-                        You've reached your max tokens please upgrade.
+                        You have reached your max tokens, please upgrade.
                     </p>
                     }
                     <Progress

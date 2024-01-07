@@ -1,10 +1,7 @@
 import { auth } from "@clerk/nextjs";
-import axios from "axios";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
-import prismadb from "@/lib/prismadb";
  
 const f = createUploadthing();
-const MJ_SERVER: any = process.env.MIDJOURNEY_SERVER;
 
 interface IncomingResponse {
     id: string,
@@ -14,10 +11,9 @@ interface IncomingResponse {
 }
  
 const handleAuth = async () => {
-  const { userId, getToken } = auth();
+  const { userId } = auth();
   if (!userId) throw new Error("Unauthorized");
-  const token = await getToken({ template: 'ai-saas' });
-  return { userId: userId, token: token };
+  return { userId: userId };
 }
 
 export const ourFileRouter = {

@@ -41,16 +41,16 @@ const HeadshotAiPage = () => {
         }
     })
 
-
-    const isLoading = form.formState.isSubmitting;
-
     useEffect(() => {
         if (selectedImage) {
             form.setValue('template', selectedImage);
         }
-    
+        console.log(selectedImage);
     }, [selectedImage, form])
-    
+
+    const upload = form.getValues('imageUrl');
+    const email = form.getValues('email');
+    const isLoading = form.formState.isSubmitting;
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -72,22 +72,21 @@ const HeadshotAiPage = () => {
                 proModal.onOpen();
             }
             else {
-                toast.error("Something went wrong, Please try again.");
+                toast.error("Something went wrong, Please try again in a few.");
             }
         } finally {
             router.refresh();
         }
     }
+
     const handleImageSelect = (image: Template) => {
       setSelectedImage(image);
     };
+    
 
     function handleForm() {
-        const template = form.getValues('template');
-        const upload = form.getValues('imageUrl');
-        const email = form.getValues('email');
-
-        if (!template.uri) {
+        
+        if (!selectedImage.uri) {
             toast.error("Please choose one of the professional headshot image.");
         }
 
@@ -156,7 +155,7 @@ const HeadshotAiPage = () => {
                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5">
                                     {templateOptions.map((image) => (
                                     <div
-                                        key={image.name}
+                                        key={image.uri}
                                         className={`cursor-pointer ${selectedImage.name === image.name ? 'ring-2 ring-blue-500' : ''}`}
                                         onClick={() => handleImageSelect(image)}
                                         onChange={field.onChange}
