@@ -78,15 +78,5 @@ export const templateOptions = [
         name: "African Male black business suit hands in pockets",
         prompt: "an east african kenyan man who is a little bit buff with east african hair that is neatily shaven into a fade haircut and he has on a black business suit with black shirt and black tie.",
         uri: "https://utfs.io/f/7b236215-a3b7-4bd1-83d5-10f55bbaa810-9af6b4.png"
-    },    
-    {
-        name: "Indian male business suit",
-        prompt: "an Indian man who is a little bit buff with hair that is neatily shaven and he has on a black business suit with black shirt and black tie.",
-        uri: "https://cdn.discordapp.com/attachments/1183359810947784748/1187283934506139648/dwashie_an_Indian_man_who_is_a_little_bit_buff_with_hair_that_i_0b94a401-d519-4281-b5db-5ea27766ee59.png"
-    },
-    {
-        name: "Indian woman business suit",
-        prompt: "an Indian woman who is very beautiful with brunette asain hair and she is wearing a formal womens pants suit with a white shirt and a black blazer.",
-        uri: "https://cdn.discordapp.com/attachments/1183359810947784748/1187284438011346974/dwashie_an_Indian_woman_who_is_very_beautiful_with_brunette_asa_ef19a418-f4a2-4f5d-ab65-95a6bc829621.png"
     },
     ];
