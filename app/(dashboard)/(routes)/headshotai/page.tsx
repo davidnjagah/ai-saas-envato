@@ -55,6 +55,8 @@ const HeadshotAiPage = () => {
     try {
         const token = await getToken({ template: 'ai-saas' });
 
+        console.log(values);
+
         await axios.post("/api/headshot",{
             template: values.template,
             imageUrl: values.imageUrl,
