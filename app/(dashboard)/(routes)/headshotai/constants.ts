@@ -49,9 +49,9 @@ export const resolutionOptions = [
 
 export const templateOptions = [
     {
-        name: "African Male black business suit with clenched arms",
+        name: "African Male black business suit close up face",
         prompt: "an east african kenyan man who is a little bit buff with east african hair that is neatily shaven into a fade haircut and he has on a black business suit with black shirt and black tie.",
-        uri: "https://utfs.io/f/cdb7962b-c94b-4fd5-bcb0-a43100c63dbe-49xpnm.png"
+        uri: "https://utfs.io/f/16d310a1-b97a-4412-bc7c-9447f23f058e-90mz5w.png"
     },
     {
         name: "African Male black business suit",
