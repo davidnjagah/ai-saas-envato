@@ -64,10 +64,10 @@ const HeadshotAiPage = () => {
             token: token,
         });
 
-        toast.success("An email will be sent to the email you have provided and should arrive in 1 to 10 mins time. Thank you for using Genius Ai.", ({duration: 10000}));
+        toast.success("An email will be sent to the email you have provided and should arrive in 1 to 10 mins time.", ({duration: 10000}));
         const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
         await delay(10000);
-        
+
         toast.success("Thank you for using Genius Ai.");
 
         } catch (error: any) {
