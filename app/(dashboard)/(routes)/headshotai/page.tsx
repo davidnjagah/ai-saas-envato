@@ -68,7 +68,7 @@ const HeadshotAiPage = () => {
         const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
         await delay(10000);
 
-        toast.success("Thank you for using Genius Ai.");
+        toast.success("Thank you for using Genius Ai.", ({duration: 5000}));
 
         } catch (error: any) {
             if (error?.response?.status === 403) {
