@@ -63,8 +63,10 @@ const HeadshotAiPage = () => {
             email: values.email,
             token: token,
         });
+        
+        router.refresh();
 
-        toast.success("An email will be sent to the email you have provided and should arrive in 1 to 10 mins time.", ({duration: 10000}));
+        toast.success("An email of the image will be sent to the email you've provided and should arrive in 1 to 10 mins time.", ({duration: 10000}));
         const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
         await delay(10000);
 
@@ -78,7 +80,7 @@ const HeadshotAiPage = () => {
                 toast.error("Something went wrong, Please try again in a few.");
             }
         } finally {
-            router.refresh();
+            
         }
     }
 
