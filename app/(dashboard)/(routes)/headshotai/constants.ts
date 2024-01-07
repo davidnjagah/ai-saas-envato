@@ -86,6 +86,6 @@ export const templateOptions = [
     {
         name: "African Male black business suit hands in pockets with red tie",
         prompt: "an east african kenyan man who is a little bit buff with east african hair that is neatily shaven into a fade haircut and he has on a black business suit with black shirt and black tie.",
-        uri: "https://utfs.io/f/6221bfb1-e9a4-44ea-8f6b-30016efa285f-ao3kdw.png"
+        uri: "https://utfs.io/f/0dd5b760-fb08-4a2d-b41d-359698dd3fcc-deli1p.png"
     },
     ];
