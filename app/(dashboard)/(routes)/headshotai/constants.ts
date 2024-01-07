@@ -73,10 +73,19 @@ export const templateOptions = [
         prompt: "an east african kenyan man who is a little bit buff with east african hair that is neatily shaven into a fade haircut and he has on a black business suit with black shirt and black tie.",
         uri: "https://utfs.io/f/90fc2500-42f9-49a9-b995-5b6ff66007ee-g4iu0l.png"
     },
-    
     {
         name: "African Male black business suit hands in pockets",
         prompt: "an east african kenyan man who is a little bit buff with east african hair that is neatily shaven into a fade haircut and he has on a black business suit with black shirt and black tie.",
         uri: "https://utfs.io/f/7b236215-a3b7-4bd1-83d5-10f55bbaa810-9af6b4.png"
+    },
+    {
+        name: "African Male black business suit hands in pockets with pointy hair",
+        prompt: "an east african kenyan man who is a little bit buff with east african hair that is neatily shaven into a fade haircut and he has on a black business suit with black shirt and black tie.",
+        uri: "https://utfs.io/f/6221bfb1-e9a4-44ea-8f6b-30016efa285f-ao3kdw.png"
+    },
+    {
+        name: "African Male black business suit hands in pockets with red tie",
+        prompt: "an east african kenyan man who is a little bit buff with east african hair that is neatily shaven into a fade haircut and he has on a black business suit with black shirt and black tie.",
+        uri: "https://utfs.io/f/6221bfb1-e9a4-44ea-8f6b-30016efa285f-ao3kdw.png"
     },
     ];
