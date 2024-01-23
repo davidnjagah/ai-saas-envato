@@ -19,6 +19,8 @@ import { Loader } from "@/components/loader";
 import Image from "next/image";
 import { useProModal } from "@/hooks/use-pro-modal";
 import { FileUpload } from "@/components/file-upload";
+import { Card, CardFooter } from "@/components/ui/card";
+import { Empty } from "@/components/empty";
 
 interface Template {
     name: string,
@@ -30,6 +32,7 @@ const HeadshotAiPage = () => {
     const { getToken } = useAuth();
     const proModal = useProModal();
     const router = useRouter();
+    const [image, setImage] = useState<string[]>();
     const [selectedImage, setSelectedImage] = useState<Template>({name: "", prompt: "", uri: ""});
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -37,7 +40,7 @@ const HeadshotAiPage = () => {
         defaultValues: {
             imageUrl: "",
             template: selectedImage,
-            email: ""
+            email: "john@example.com"
         }
     })
 
@@ -57,18 +60,16 @@ const HeadshotAiPage = () => {
 
         console.log(values);
 
-        await axios.post("/api/headshot",{
+        const response = await axios.post("/api/headshot",{
             template: values.template,
             imageUrl: values.imageUrl,
             email: values.email,
             token: token,
         });
 
-        toast.success("An email will be sent to the email you've provided and should arrive in 1 to 10 mins time.", ({duration: 10000}));
-        const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-        await delay(10000);
+        toast.success("Image has been generated.", ({duration: 5000}));
 
-        toast.success("Thank you for using Genius Ai.", ({duration: 5000}));
+        setImage(response.data);
 
         } catch (error: any) {
             if (error?.response?.status === 403) {
@@ -174,33 +175,6 @@ const HeadshotAiPage = () => {
                                 </div>
                             </FormItem>
                         )}
-                        />
-                        
-                        <FormField
-                        name="email"
-                        render={({ field }) => (
-                            <FormItem className="
-                            col-span-12
-                            ">
-                            <p className="text-sm text-center pb-2">
-                                Add an email below that will recieve the Headshot image once the generation is complete.
-                            </p>
-                                <FormControl className="m-0 p-0">
-                                    <Input 
-                                    className="
-                                    border-2
-                                    outline-none
-                                    p-2
-                                    focus-visible:ring-0
-                                    focus-visible:ring-transparent
-                                    "
-                                    disabled={isLoading}
-                                    placeholder="john@example.com"
-                                    {...field}
-                                    />
-                                </FormControl>
-                            </FormItem>
-                        )}
                         />                        
                         <Button className="col-span-12 w-full focus:outline-none" disabled={isLoading} onClick={()=>{handleForm()}}>
                             Generate
@@ -215,6 +189,35 @@ const HeadshotAiPage = () => {
                             <Loader />
                         </div>
                     )}
+                    {image.length === 0 && !isLoading &&(
+                       <Empty  label="No images generated" v = "placement"/>
+                    )}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:gird-cols-2 gap-4 mt-8">
+                        {image.map((src) => (
+                        <Card 
+                            key={src}
+                            className="rounded-lg overflow-hidden"
+                        >
+                            <div className="relative aspect-square">
+                                <Image
+                                    alt="Image"
+                                    fill
+                                    src={src}
+                                />
+                            </div>
+                            <CardFooter className="p-2">
+                                <Button 
+                                onClick={() => window.open(src)}
+                                variant="secondary" 
+                                className="w-full"
+                                >
+                                    <Download className="h-4 w-4 mr-2"/>
+                                    Download
+                                </Button>
+                            </CardFooter>
+                        </Card>
+                        ))}
+                    </div>
                 </div>
                 <div className="space-y-4 my-36">
                 </div>
