@@ -1,7 +1,3 @@
-Certainly! Below is the documentation for the tasks you've mentioned:
-
----
-
 # Local Booting a Next.js Project
 
 ## Prerequisites
