@@ -113,4 +113,6 @@ PAYSTACK_SECRET_KEY=your-paystack-secret-key
 
 Make sure to replace "your-clerk-api-key," "your-clerk-next-publishable-key," "your-platforms-domain-name," "your-replicate-token," "your-database-url," "your-uploadthing-api-token," "your-uploadthing-app-id," and "your-paystack-secret-key" with the actual keys you obtain from the respective services.
 
+Make sure to also rename the .env.example file to .env before you launch the application. When it comes to deploying the application on vercel you will have to input the env variables in your vercel project settings.
+
 Feel free to reach out if you have any questions or need further assistance.
