@@ -1,4 +1,4 @@
-# Locally Booting Genius Ai Next.js Project
+# Locally Booting Genius Ai
 
 ## Prerequisites
 - Node.js installed on your machine
@@ -25,7 +25,7 @@ Open your browser and visit [http://localhost:3000](http://localhost:3000) to vi
 
 ---
 
-# Launching Genius Ai Next.js Project on Vercel
+# Launching Genius Ai on Vercel
 
 To launch your NextJs project you will need to push it to your github repository then visit [Vercel](https://vercel.com) to open an account with your github account that has the repository then you will be able to launch the application from it's repository using the vercel dashboard. You can see more on this on this link [Vercel how to deploy project](https://vercel.com/docs/deployments/overview)
 
